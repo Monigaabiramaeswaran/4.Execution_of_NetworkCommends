@@ -1,7 +1,10 @@
 # 4.Execution_of_NetworkCommands
-## AIM :Use of Network commands in Real Time environment
-## Software : Command Prompt And Network Protocol Analyzer
-## Procedure: To do this EXPERIMENT- follows these steps:
+## AIM :
+Use of Network commands in Real Time environment
+## Software :
+Command Prompt And Network Protocol Analyzer
+## Procedure: 
+To do this EXPERIMENT- follows these steps:
 <BR>
 In this EXPERIMENT- students have to understand basic networking commands e.g cpdump, netstat, ifconfig, nslookup ,traceroute and also Capture ping and traceroute PDUs using a network protocol analyzer 
 <BR>
@@ -25,8 +28,50 @@ This commands includes
 <BR>
 • Other IP Commands e.g. show ip route etc.
 <BR>
+## Program
+## server.py
+```
+import socket
+
+dns_table = {
+    "google.com": "142.250.190.78",
+    "yahoo.com": "98.137.11.163",
+    "openai.com": "104.18.12.123",
+    "example.com": "93.184.216.34"
+}
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+server_socket.bind(("127.0.0.1", 15353))
+
+print("DNS Server running on port 5353...\n")
+
+while True:
+    message, client_address = server_socket.recvfrom(1024)
+    domain = message.decode()
+    print("Request received for:", domain)
+    ip = dns_table.get(domain, "Domain not found")
+    server_socket.sendto(ip.encode(), client_address)
+```
+## client.py
+```
+import socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_address = ("127.0.0.1", 15353)
+
+domain = input("Enter domain name: ")
+
+client_socket.sendto(domain.encode(), server_address)
+
+ip_address, server = client_socket.recvfrom(1024)
+
+print("IP Address:", ip_address.decode())
+
+client_socket.close()
+```
 
 ## Output
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1ff95ae7-5ba7-4fd2-8e10-572cc08791df" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/50538f66-bf1c-486e-8a62-a56a0f401906" />
 
 ## Result
 Thus Execution of Network commands Performed 
